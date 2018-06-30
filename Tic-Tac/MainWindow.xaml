@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tic_Tac"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Tic-Tac" Height="300" Width="300">
     <Grid>
-        
+        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Height="45" Width="100" Background="White" BorderBrush="Blue">开始游戏</Button>
+        <Canvas Height="269" VerticalAlignment="Top" HorizontalAlignment="Right" Width="292" Name="ChessBoard" Background="#fdf6e3" />
     </Grid>
 </Window>
