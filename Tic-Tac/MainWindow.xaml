@@ -5,19 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tic_Tac"
         mc:Ignorable="d"
-        Title="Tic-Tac" Height="300" Width="300">
+        Title="Tic-Tac" Height="177.236" Width="178.356" ResizeMode="NoResize">
     <Grid>
-        <Button Name="StartButton" HorizontalAlignment="Center" VerticalAlignment="Center" Height="45" Width="100" Background="White" BorderBrush="Blue" Panel.ZIndex="1" Click="Button_Click">开始游戏</Button>
-        <Canvas Height="269" VerticalAlignment="Top" HorizontalAlignment="Right" Width="292" Name="ChessBoard" Background="#fdf6e3">
-            <Button x:Name="Button2" Height="85" Width="95" Visibility="Visible" Click="Button2_Click" />
-            <Button x:Name="Button3" Height="85" Width="97" Canvas.Left="195" Visibility="Hidden" />
-            <Button x:Name="Button4" Height="85" Width="95" Canvas.Top="85" Visibility="Hidden" />
-            <Button x:Name="Button5" Height="85" Width="100" Canvas.Left="95" Canvas.Top="85" Visibility="Hidden" />
-            <Button x:Name="Button6" Height="85" Width="97" Canvas.Left="195" Canvas.Top="85" Visibility="Hidden" />
-            <Button x:Name="Button7" Height="99" Width="95" Canvas.Top="170" Visibility="Hidden" />
-            <Button x:Name="Button8" Height="99" Width="100" Canvas.Left="95" Canvas.Top="170" Visibility="Hidden" />
-            <Button x:Name="Button9" Height="99" Width="97" Canvas.Left="195" Canvas.Top="170" Visibility="Hidden" />
-            <Button x:Name="Button1" Height="85" Width="100" Canvas.Left="95" Visibility="Hidden" />
-        </Canvas>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="18" />
+            <ColumnDefinition Width="126" />
+            <ColumnDefinition Width="26" />
+        </Grid.ColumnDefinitions>
+        <Canvas Name="chessBoard" Margin="19,0,20,32" Height="90" VerticalAlignment="Bottom" Grid.Column="1" />
     </Grid>
 </Window>

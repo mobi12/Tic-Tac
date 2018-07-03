@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Tic_Tac
@@ -23,48 +13,24 @@ namespace Tic_Tac
         public MainWindow()
         {
             InitializeComponent();
-        }
 
-        private void DrawingElement(Canvas canvas, Point start, Point end)
-        {
-            LineGeometry lineGeometry = new LineGeometry();
-            Point startPoint = start;
-            Point endPoint = end;
+            PathGeometry board = new PathGeometry();
+
+            for (int i = 0; i < 90; i += 30)
+            {
+                for (int j = 0; j < 90; j += 30)
+                {
+                    board.AddGeometry(new RectangleGeometry(new Rect(j, i, 30, 30)));
+                }
+            }
+
             Path path = new Path();
-
-            lineGeometry.StartPoint = startPoint;
-            lineGeometry.EndPoint = endPoint;
-            path.Stroke = Brushes.Red;
+            path.Fill = Brushes.AliceBlue;
+            path.Stroke = Brushes.Black;
             path.StrokeThickness = 1;
-            path.Data = lineGeometry;
+            path.Data = board;
 
-            canvas.Children.Add(path);
-        }
-
-        private void DrawingChessX(Point location)
-        {
-            Point startPointOfLeft = new Point(location.X + 20, location.Y + 20);
-            Point endPointOfLeft = new Point(location.X - 20, location.Y - 20);
-            Point startPointOfRight = new Point(location.X - 20, location.Y + 20);
-            Point endPointOfRight = new Point(location.X + 20, location.Y - 20);
-
-            DrawingElement(ChessBoard, startPointOfLeft, endPointOfLeft);
-            DrawingElement(ChessBoard, startPointOfRight, endPointOfRight);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DrawingElement(ChessBoard, new Point(0, 80), new Point(300, 80));
-            DrawingElement(ChessBoard, new Point(0, 160), new Point(300, 160));
-            DrawingElement(ChessBoard, new Point(100, 0), new Point(100, 300));
-            DrawingElement(ChessBoard, new Point(200, 0), new Point(200, 300));
-            StartButton.IsEnabled = false;
-            StartButton.Visibility = Visibility.Collapsed;
-        }
-
-        private void Button2_Click(object sender, RoutedEventArgs e)
-        {
-            DrawingChessX(new Point(47, 38));
+            chessBoard.Children.Add(path);
         }
     }
 }
