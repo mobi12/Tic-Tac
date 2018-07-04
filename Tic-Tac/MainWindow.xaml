@@ -12,6 +12,6 @@
             <ColumnDefinition Width="126" />
             <ColumnDefinition Width="26" />
         </Grid.ColumnDefinitions>
-        <Canvas Name="chessBoard" Margin="19,0,20,32" Height="90" VerticalAlignment="Bottom" Grid.Column="1" />
+        <Canvas Name="chessBoard" Margin="19,0,20,32" Height="90" VerticalAlignment="Bottom" Grid.Column="1" MouseLeftButtonDown="chessBoard_MouseLeftButtonDown" />
     </Grid>
 </Window>
