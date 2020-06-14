@@ -12,25 +12,31 @@ namespace Tic_Tac
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Squre> squres = new List<Squre>();
-        private SqureStatus boardStatus = SqureStatus.Tac;
+        private Squre[,] _squres;
+        private const int _tic = 1;
+        private const int _tac = 2;
+        private static int _boardStatus = _tac;
         private DispatcherTimer gameChecker = new DispatcherTimer();
 
         public MainWindow()
         {
             InitializeComponent();
 
+            _squres = new Squre [3, 3];
             gameChecker.Tick += GameChecker_Tick;
             PathGeometry board = new PathGeometry();
 
+            int id = 0;
             for (int i = 0; i < 90; i += 30)
             {
                 for (int j = 0; j < 90; j += 30)
                 {
                     Rect temp = new Rect(i, j, 30, 30);
-                    squres.Add(new Squre(temp));
+                    _squres[i / 30, j / 30] = new Squre(temp, id);
                     board.AddGeometry(new RectangleGeometry(temp));
+                    id++;
                 }
+                id += 3;
             }
 
             Path path = new Path
@@ -46,112 +52,42 @@ namespace Tic_Tac
             gameChecker.Start();
         }
 
-        private void GameChecker_Tick(object sender, System.EventArgs e)
-        {
-            int j = 3;
-            int k = 6;
-            for (int i = 0; i < 3; i++)
-            {
-                if (CheckTacOrTic(squres[i], squres[j + i], squres[k + i], SqureStatus.Tac) == true)
-                {
-                    MessageBox.Show("圈圈赢了");
-                    boardStatus = SqureStatus.Win;
-                    gameChecker.Stop();
-                }
-                else if (CheckTacOrTic(squres[i], squres[j + i], squres[k + i], SqureStatus.Tic) == true)
-                {
-                    MessageBox.Show("叉叉赢了");
-                    boardStatus = SqureStatus.Win;
-                    gameChecker.Stop();
-                }
-            }
-
-            j = 1;
-            k = 2;
-            for (int i = 0; i < 3; i++)
-            {
-                if (CheckTacOrTic(squres[i], squres[i + j], squres[i + k], SqureStatus.Tac) == true)
-                {
-                    MessageBox.Show("圈圈赢了");
-                    boardStatus = SqureStatus.Win;
-                    gameChecker.Stop();
-                }
-                else if (CheckTacOrTic(squres[i], squres[i + 1], squres[i + 2], SqureStatus.Tic) == true)
-                {
-                    MessageBox.Show("叉叉赢了");
-                    boardStatus = SqureStatus.Win;
-                    gameChecker.Stop();
-                }
-            }
-
-            if (CheckTacOrTic(squres[0], squres[4], squres[8], SqureStatus.Tac) == true ||
-                CheckTacOrTic(squres[0], squres[4], squres[8], SqureStatus.Tac) == true)
-            {
-                MessageBox.Show("圈圈赢了");
-                boardStatus = SqureStatus.Win;
-                gameChecker.Stop();
-            }
-            else if (CheckTacOrTic(squres[6], squres[4], squres[2], SqureStatus.Tic) == true ||
-                CheckTacOrTic(squres[2], squres[4], squres[6], SqureStatus.Tic) == true)
-            {
-                MessageBox.Show("叉叉赢了");
-                boardStatus = SqureStatus.Win;
-                gameChecker.Stop();
-            }
-
-            int count = 0;
-            foreach (var item in squres)
-            {
-                if (item.Status != SqureStatus.None)
-                {
-                    count++;
-                }
-            }
-
-            if (count == 9 && boardStatus != SqureStatus.Win)
-            {
-                MessageBox.Show("棋盘满了");
-                gameChecker.Stop();
-            }
-        }
-
         private void chessBoard_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Point clickPoint = Mouse.GetPosition(e.Source as FrameworkElement);
 
-            foreach (var item in squres)
+            for (int i = 0; i < 3; i++)
             {
-                if (item.SqurePoint.Contains(clickPoint) && item.Status == SqureStatus.None && boardStatus == SqureStatus.Tac)
+                for (int j = 0; j < 3; j++)
                 {
-                    item.DrawingTac(chessBoard);
-                    boardStatus = SqureStatus.Tic;
-                    break;
-                }
-                else if (item.SqurePoint.Contains(clickPoint) && item.Status == SqureStatus.None && boardStatus == SqureStatus.Tic)
-                {
-                    item.DrawingTic(chessBoard);
-                    boardStatus = SqureStatus.Tac;
+                    _squres[i, j].DrawingChess(chessBoard, clickPoint, _boardStatus);
+
+                    if (_boardStatus == _tic)
+                    {
+                        _boardStatus = _tac;
+                    }
+                    else
+                    {
+                        _boardStatus = _tic;
+                    }
+
                     break;
                 }
             }
         }
 
-        private bool CheckTacOrTic(Squre one, Squre two, Squre three, SqureStatus status)
+        private void GameChecker_Tick(object sender, System.EventArgs e)
         {
-            if (one.Status == status)
+            List<int> note = new List<int>();
+            for (int i = 0; i < 3; i++)
             {
-                if (one.Status == two.Status && one.Status == three.Status && two.Status == three.Status)
+                for (int j = 0; j < 3; j++)
                 {
-                    return true;
+                    if (_squres[i,j].Status == _tic)
+                    {
+                        
+                    }
                 }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
             }
         }
     }

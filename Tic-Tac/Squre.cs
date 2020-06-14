@@ -7,7 +7,21 @@ namespace Tic_Tac
 {
     public class Squre
     {
+        private const int _tic = 1;
+        private const int _tac = 2;
+
         private Rect _squrePoint;
+        private int _status;
+        private int _id;
+        public int Status
+        {
+            get => _status;
+        }
+
+        public int ID
+        {
+            get => _id;
+        } 
 
         public Rect SqurePoint
         {
@@ -21,23 +35,29 @@ namespace Tic_Tac
             }
         }
 
-        private SqureStatus _status;
-
-        public SqureStatus Status
+        public Squre(Rect coordinate, int id)
         {
-            get
+            SqurePoint = coordinate;
+            _status = 0;
+            _id = id;
+        }
+
+        public void DrawingChess(Canvas board, Point clickPoint, int boardStatus)
+        {
+            if (_squrePoint.Contains(clickPoint))
             {
-                return _status;
+                if (_status == 0 && boardStatus == 1)
+                {
+                    DrawingTic(board);
+                }
+                else if (_status == 0 && boardStatus == 2)
+                {
+                    DrawingTac(board);
+                }
             }
         }
 
-        public Squre(Rect coordinate)
-        {
-            SqurePoint = coordinate;
-            _status = SqureStatus.None;
-        }
-
-        public void DrawingTic(Canvas board)
+        private void DrawingTic(Canvas board)
         {
             PathGeometry tic = new PathGeometry();
             tic.AddGeometry(new LineGeometry(new Point(_squrePoint.Location.X + 5, _squrePoint.Location.Y + 5),
@@ -52,11 +72,11 @@ namespace Tic_Tac
                 Data = tic
             };
 
-            _status = SqureStatus.Tic;
+            _status = _tic;
             board.Children.Add(ticPath);
         }
 
-        public void DrawingTac(Canvas board)
+        private void DrawingTac(Canvas board)
         {
             Point center = new Point(_squrePoint.X + 15, _squrePoint.Y + 15);
             EllipseGeometry tac = new EllipseGeometry(center, 10, 10);
@@ -68,7 +88,7 @@ namespace Tic_Tac
                 Data = tac
             };
 
-            _status = SqureStatus.Tac;
+            _status = _tac;
             board.Children.Add(tacPath);
         }
     }
